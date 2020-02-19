@@ -31,11 +31,11 @@ module.exports = {
         ],
     },
     devServer: {
-        contentBase: path.resolve(__dirname, './client-dist'),
-        publicPath: '/',
+        contentBase: path.resolve(__dirname, '.'), // serves files not built from webpack
+        publicPath: '/client-dist/', // webpack builds files into RAM, and serves in this path (overrides actual folders)
         host: '127.0.0.1',
-        port: 5050,
-        open: true
+        port: 8080,
+        open: true,
     },
     resolve: {
         extensions: ['.ts', '.js'],
@@ -67,9 +67,9 @@ module.exports = {
         usedExports: true,
     },
     plugins: [
-        new CopyPlugin([
-            { from: '*.html', context: 'client-src/' },
-            { from: '**/*.css', context: 'client-src/' },
-        ])
+        // new CopyPlugin([
+        //     { from: '*.html', context: 'client-src/' },
+        //     { from: '**/*.css', context: 'client-src/' },
+        // ])
     ]
 };

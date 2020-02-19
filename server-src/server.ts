@@ -3,6 +3,8 @@ import * as socketIO from "socket.io";
 import * as path from "path";
 import { createServer } from 'http'
 import { ParamsDictionary } from "express-serve-static-core";
+import { Model } from '../model/Model';
+import { systemFactory } from '../model/systemFactory';
 
 const app = express();
 app.set("port", process.env.PORT || 3000);
@@ -28,3 +30,10 @@ io.on("connection", (socket) => {
 const server = http.listen(3000, () => {
     console.log("listening on *:3000");
 });
+
+
+// main game configuration
+const gameModel = new Model({
+    tickSizeMS: Math.floor(1000 / 60),
+    systems: systemFactory(),
+})

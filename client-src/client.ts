@@ -1,21 +1,30 @@
 import * as Debug from 'debug';
 import "phaser";
 import { MainScene } from "./scenes/MainScene";
-import './utils/window.ts';
+import '../model/utils/window';
+import { WORLD_WIDTH, WORLD_HEIGHT, GAME_NAMESPACE } from './constants';
+import { b2World } from 'box2d.ts';
+import { Model } from '../model/Model';
+import { systemFactory } from '../model/systemFactory';
 
 window._Debug = Debug;
-const log = Debug('ludo-plus:client:log');
-// const warn = Debug('ludo-plus:client:warn');
+const verbose = Debug(`${GAME_NAMESPACE}:client:verbose `);
+// const log = Debug(`${GAME_NAME}:client:log`);
+// const warn = Debug(`${GAME_NAME}:client:warn`);
 // warn.log = console.warn.bind(console);
 
 // main game configuration
+const gameModel = new Model({
+    tickSizeMS: Math.floor(1000 / 60),
+    systems: systemFactory(),
+})
 const phaserConfig: Phaser.Types.Core.GameConfig = {
-    width: 768,
-    height: 1366,
+    width: WORLD_WIDTH,
+    height: WORLD_HEIGHT,
     disableContextMenu: true,
     type: Phaser.AUTO,
     parent: "game",
-    scene: MainScene,
+    scene: new MainScene(),
     zoom: 1,
     backgroundColor: 0xAAAAAA,
     // physics: {
@@ -44,7 +53,7 @@ window.onload = () => {
         const hh = window.innerHeight / Number(phaserConfig.height);
 
         const min = Math.min(ww, hh);
-        log(`handleSizeUpdate\n window: ${window.innerWidth}, ${window.innerHeight}\n ratio: ${ww}, ${hh}\n min: ${min}`);
+        verbose(`handleSizeUpdate\n window: ${window.innerWidth}, ${window.innerHeight}\n ratio: ${ww}, ${hh}\n min: ${min}`);
 
         game.canvas.style.width = `${min * Number(phaserConfig.width)}px`;
         game.canvas.style.height = `${min * Number(phaserConfig.height)}px`;
@@ -53,7 +62,7 @@ window.onload = () => {
     if (!window.location.search.includes('video')) {
         window.addEventListener('resize', handleSizeUpdate);
 
-        log('init handleSizeUpdate');
+        verbose('init handleSizeUpdate');
         handleSizeUpdate();
     }
 };

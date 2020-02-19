@@ -5,3 +5,4 @@ declare global {
         _Debug: Debug;
     }
 }
+

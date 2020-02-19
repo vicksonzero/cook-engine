@@ -4,6 +4,7 @@
         "esModuleInterop": false,
         "target": "es6",
         "noImplicitAny": true,
+        "strictNullChecks": true,
         "moduleResolution": "node",
         "sourceMap": true,
         "outDir": "server-dist",
@@ -11,7 +12,7 @@
         "paths": {
             "*": [
                 "node_modules/",
-                "server-src/types/*"
+                "server-src/types/*",
             ]
         }
     },
